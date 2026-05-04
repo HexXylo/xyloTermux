@@ -1,0 +1,39 @@
+#!/bin/bash
+## xyloTermux - help
+## Lists all xyloTermux custom commands
+
+CYAN='\033[38;2;125;207;255m'
+PURPLE='\033[38;2;187;154;247m'
+GREEN='\033[38;2;158;206;106m'
+DIM='\033[2m'
+BOLD='\033[1m'
+RESET='\033[0m'
+
+cmd() { printf "  ${CYAN}%-14s${RESET} ${DIM}│${RESET} %s\n" "$1" "$2"; }
+
+echo ""
+echo -e "  ${PURPLE}${BOLD}xyloTermux${RESET} ${DIM}command reference${RESET}"
+echo -e "  ${DIM}─────────────────────────────────────${RESET}"
+echo ""
+echo -e "  ${GREEN}${BOLD}Customization${RESET}"
+cmd "chcolor"     "Switch terminal colorscheme"
+cmd "chfont"      "Switch terminal font"
+cmd "chzsh"       "Switch ZSH theme"
+echo ""
+echo -e "  ${GREEN}${BOLD}System Info${RESET}"
+cmd "xfetch"      "xylo system info display"
+cmd "fetch"       "neofetch system info"
+echo ""
+echo -e "  ${GREEN}${BOLD}Shortcuts${RESET}"
+cmd "update"      "pkg update && pkg upgrade"
+cmd "install"     "pkg install <package>"
+cmd "remove"      "pkg remove <package>"
+cmd "search"      "pkg search <query>"
+cmd "myip"        "Show your external IP"
+cmd "cls"         "Clear terminal"
+cmd "reload"      "Reload .zshrc config"
+cmd "matrix"      "Run cmatrix animation"
+cmd "pipes"       "Run pipes animation"
+echo ""
+echo -e "  ${DIM}Tip: Edit ~/.aliases to add your own commands${RESET}"
+echo ""

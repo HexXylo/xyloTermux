@@ -1,0 +1,54 @@
+## xyloTermux .aliases
+
+# ── Navigation ───────────────────────────────────────────────
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ~='cd ~'
+alias dl='cd ~/storage/downloads'
+alias dc='cd ~/storage/dcim'
+
+# ── Listing ──────────────────────────────────────────────────
+alias ls='ls --color=auto'
+alias la='ls -la --color=auto'
+alias ll='ls -lh --color=auto'
+alias lt='ls -lhtr --color=auto'
+
+# ── Safety Nets ──────────────────────────────────────────────
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
+
+# ── System ───────────────────────────────────────────────────
+alias cls='clear'
+alias q='exit'
+alias reload='source ~/.zshrc'
+alias top='htop'
+
+# ── Package Manager ──────────────────────────────────────────
+alias install='pkg install'
+alias remove='pkg remove'
+alias search='pkg search'
+alias update='pkg update && pkg upgrade'
+
+# ── xyloTermux Tools ─────────────────────────────────────────
+alias chcolor='~/.scripts/chcolor'
+alias chfont='~/.scripts/chfont'
+alias chzsh='~/.scripts/chzsh'
+alias fetch='neofetch'
+alias xfetch='~/.scripts/xylofetch'
+
+# ── Git ──────────────────────────────────────────────────────
+alias g='git'
+alias gs='git status'
+alias ga='git add .'
+alias gc='git commit -m'
+alias gp='git push'
+alias gl='git log --oneline --graph --decorate'
+
+# ── Networking ───────────────────────────────────────────────
+alias myip='curl -s ifconfig.me && echo'
+alias pingg='ping -c 5 google.com'
+
+# ── Fun ──────────────────────────────────────────────────────
+alias pipes='pipes-rs'
+alias matrix='cmatrix -a -b -C cyan'

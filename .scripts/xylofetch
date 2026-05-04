@@ -1,0 +1,78 @@
+#!/bin/bash
+## xyloTermux - xylofetch
+## Minimal, beautiful system info display
+
+CYAN='\033[38;2;125;207;255m'
+PURPLE='\033[38;2;187;154;247m'
+GREEN='\033[38;2;158;206;106m'
+YELLOW='\033[38;2;224;175;104m'
+RED='\033[38;2;247;118;142m'
+DIM='\033[2m'
+BOLD='\033[1m'
+RESET='\033[0m'
+
+sep() { echo -e "  ${DIM}───────────────────────────────${RESET}"; }
+row() { printf "  ${PURPLE}%-12s${RESET}  %s\n" "$1" "$2"; }
+
+# Gather info
+os=$(getprop ro.build.version.release 2>/dev/null && echo "Android" || uname -s)
+kernel=$(uname -r)
+arch=$(uname -m)
+uptime_raw=$(uptime -p 2>/dev/null | sed 's/up //')
+shell_name=$(basename "$SHELL")
+term="Termux"
+packages=$(dpkg -l 2>/dev/null | grep -c '^ii' || echo "n/a")
+mem_total=$(grep MemTotal /proc/meminfo | awk '{printf "%.0f MiB", $2/1024}')
+mem_free=$(grep MemAvailable /proc/meminfo | awk '{printf "%.0f MiB", $2/1024}')
+cpu=$(grep "model name" /proc/cpuinfo | head -1 | cut -d: -f2 | xargs)
+[[ -z "$cpu" ]] && cpu=$(grep "Hardware" /proc/cpuinfo | head -1 | cut -d: -f2 | xargs)
+[[ -z "$cpu" ]] && cpu="Unknown CPU"
+disk_used=$(df -h /data 2>/dev/null | awk 'NR==2{print $3}')
+disk_avail=$(df -h /data 2>/dev/null | awk 'NR==2{print $4}')
+bat_info=$(termux-battery-status 2>/dev/null)
+if [[ -n "$bat_info" ]]; then
+  bat_pct=$(echo "$bat_info" | python3 -c "import sys,json; b=json.load(sys.stdin); print(b['percentage'])" 2>/dev/null)
+  bat_status=$(echo "$bat_info" | python3 -c "import sys,json; b=json.load(sys.stdin); print(b['status'])" 2>/dev/null)
+  battery="${bat_pct}% [${bat_status}]"
+else
+  battery="n/a"
+fi
+wifi=$(termux-wifi-connectioninfo 2>/dev/null | python3 -c \
+  "import sys,json; d=json.load(sys.stdin); print(d.get('ssid','N/A'))" 2>/dev/null || echo "N/A")
+
+# Display
+echo ""
+echo -e "  ${PURPLE}${BOLD}██╗  ██╗██╗   ██╗██╗      ██████╗ ${RESET}"
+echo -e "  ${PURPLE}╚██╗██╔╝╚██╗ ██╔╝██║     ██╔═══██╗${RESET}"
+echo -e "  ${CYAN} ╚███╔╝  ╚████╔╝ ██║     ██║   ██║${RESET}"
+echo -e "  ${CYAN} ██╔██╗   ╚██╔╝  ██║     ██║   ██║${RESET}"
+echo -e "  ${PURPLE}██╔╝ ██╗   ██║   ███████╗╚██████╔╝${RESET}"
+echo -e "  ${PURPLE}╚═╝  ╚═╝   ╚═╝   ╚══════╝ ╚═════╝ ${RESET}"
+echo ""
+sep
+row "󰣇  OS"        "Android ${os} [${arch}]"
+row "  Kernel"    "${kernel}"
+row "  Uptime"    "${uptime_raw}"
+row "  Shell"     "${shell_name}"
+row "  Terminal"  "${term}"
+row "󰏗  Packages"  "${packages} (dpkg)"
+row "  CPU"       "${cpu}"
+row "  Memory"    "${mem_free} free / ${mem_total}"
+row "󰋊  Storage"   "${disk_used} used / ${disk_avail} free"
+row "󰁹  Battery"   "${battery}"
+row "󰤨  Network"   "${wifi}"
+sep
+echo ""
+
+# Color palette
+echo -en "  "
+for i in 0 1 2 3 4 5 6 7; do
+  echo -en "\033[4${i}m   \033[0m"
+done
+echo ""
+echo -en "  "
+for i in 0 1 2 3 4 5 6 7; do
+  echo -en "\033[10${i}m   \033[0m"
+done
+echo ""
+echo ""

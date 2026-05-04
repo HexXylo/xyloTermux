@@ -1,0 +1,22 @@
+## xyloTermux Colorscheme: "XyloAsh"
+## Muted grey-blue aesthetic
+
+color0=#1e2030
+color8=#3b4261
+color1=#ff757f
+color9=#ff8589
+color2=#c3e88d
+color10=#d4f1a7
+color3=#ffc777
+color11=#ffd89a
+color4=#82aaff
+color12=#9ab8ff
+color5=#c099ff
+color13=#d0b0ff
+color6=#86e1fc
+color14=#b4f9f8
+color7=#828bb8
+color15=#c8d3f5
+background=#222436
+foreground=#c8d3f5
+cursor=#c099ff

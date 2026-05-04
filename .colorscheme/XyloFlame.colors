@@ -1,0 +1,22 @@
+## xyloTermux Colorscheme: "XyloFlame"
+## Warm amber & ember tones
+
+color0=#1c1917
+color8=#44403c
+color1=#ef4444
+color9=#f87171
+color2=#84cc16
+color10=#a3e635
+color3=#f59e0b
+color11=#fbbf24
+color4=#60a5fa
+color12=#93c5fd
+color5=#e879f9
+color13=#f0abfc
+color6=#22d3ee
+color14=#67e8f9
+color7=#d6d3d1
+color15=#fafaf9
+background=#18120a
+foreground=#fef3c7
+cursor=#f59e0b

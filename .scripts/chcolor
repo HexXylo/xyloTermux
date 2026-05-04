@@ -1,0 +1,55 @@
+#!/bin/bash
+## xyloTermux - chcolor
+## Interactive colorscheme switcher
+
+COLORS_DIR="$HOME/.colorscheme"
+TERMUX_COLORS="$HOME/.termux/colors.properties"
+
+CYAN='\033[38;2;125;207;255m'
+PURPLE='\033[38;2;187;154;247m'
+GREEN='\033[38;2;158;206;106m'
+RED='\033[38;2;247;118;142m'
+YELLOW='\033[38;2;224;175;104m'
+DIM='\033[2m'
+BOLD='\033[1m'
+RESET='\033[0m'
+
+# List available colorschemes
+schemes=()
+while IFS= read -r -d '' file; do
+  schemes+=("$(basename "${file%.colors}")")
+done < <(find "$COLORS_DIR" -name "*.colors" -print0 | sort -z)
+
+if [[ ${#schemes[@]} -eq 0 ]]; then
+  echo -e "${RED}No colorschemes found in ${COLORS_DIR}${RESET}"
+  exit 1
+fi
+
+echo ""
+echo -e "  ${PURPLE}${BOLD}xyloTermux${RESET} ${DIM}// colorscheme switcher${RESET}"
+echo ""
+
+for i in "${!schemes[@]}"; do
+  printf "  ${CYAN}[%2d]${RESET} %s\n" "$((i+1))" "${schemes[$i]}"
+done
+
+echo ""
+printf "  ${PURPLE}Select a colorscheme [1-${#schemes[@]}]: ${RESET}"
+read -r choice
+
+# Validate input
+if ! [[ "$choice" =~ ^[0-9]+$ ]] || [[ $choice -lt 1 ]] || [[ $choice -gt ${#schemes[@]} ]]; then
+  echo -e "  ${RED}Invalid choice.${RESET}"
+  exit 1
+fi
+
+selected="${schemes[$((choice-1))]}"
+scheme_file="$COLORS_DIR/${selected}.colors"
+
+cp "$scheme_file" "$TERMUX_COLORS"
+termux-reload-settings
+
+echo ""
+echo -e "  ${GREEN}✓${RESET} Applied ${PURPLE}${BOLD}${selected}${RESET} colorscheme!"
+echo -e "  ${DIM}Reload terminal or open a new session to see full effect.${RESET}"
+echo ""

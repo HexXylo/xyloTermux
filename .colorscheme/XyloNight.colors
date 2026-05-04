@@ -1,0 +1,22 @@
+## xyloTermux Colorscheme: "XyloNight"
+## Deep night — emerald + magenta
+
+color0=#0f111a
+color8=#363b54
+color1=#f07178
+color9=#f07178
+color2=#c3e88d
+color10=#c3e88d
+color3=#ffcb6b
+color11=#ffcb6b
+color4=#82aaff
+color12=#82aaff
+color5=#c792ea
+color13=#c792ea
+color6=#89ddff
+color14=#89ddff
+color7=#8f93a2
+color15=#eeffff
+background=#0f111a
+foreground=#eeffff
+cursor=#c792ea

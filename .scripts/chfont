@@ -1,0 +1,51 @@
+#!/bin/bash
+## xyloTermux - chfont
+## Interactive font switcher
+
+FONTS_DIR="$HOME/.fonts"
+TERMUX_FONT="$HOME/.termux/font.ttf"
+
+CYAN='\033[38;2;125;207;255m'
+PURPLE='\033[38;2;187;154;247m'
+GREEN='\033[38;2;158;206;106m'
+RED='\033[38;2;247;118;142m'
+DIM='\033[2m'
+BOLD='\033[1m'
+RESET='\033[0m'
+
+fonts=()
+while IFS= read -r -d '' file; do
+  fonts+=("$(basename "${file}")")
+done < <(find "$FONTS_DIR" -name "*.ttf" -print0 | sort -z)
+
+if [[ ${#fonts[@]} -eq 0 ]]; then
+  echo -e "${RED}No fonts found in ${FONTS_DIR}${RESET}"
+  echo -e "${DIM}Add .ttf files to ~/.fonts/ then rerun this script.${RESET}"
+  exit 1
+fi
+
+echo ""
+echo -e "  ${PURPLE}${BOLD}xyloTermux${RESET} ${DIM}// font switcher${RESET}"
+echo ""
+
+for i in "${!fonts[@]}"; do
+  printf "  ${CYAN}[%2d]${RESET} %s\n" "$((i+1))" "${fonts[$i]%.ttf}"
+done
+
+echo ""
+printf "  ${PURPLE}Select a font [1-${#fonts[@]}]: ${RESET}"
+read -r choice
+
+if ! [[ "$choice" =~ ^[0-9]+$ ]] || [[ $choice -lt 1 ]] || [[ $choice -gt ${#fonts[@]} ]]; then
+  echo -e "  ${RED}Invalid choice.${RESET}"
+  exit 1
+fi
+
+selected="${fonts[$((choice-1))]}"
+cp "$FONTS_DIR/$selected" "$TERMUX_FONT"
+termux-reload-settings
+
+echo ""
+echo -e "  ${GREEN}✓${RESET} Font set to ${PURPLE}${BOLD}${selected%.ttf}${RESET}!"
+echo -e "  ${DIM}Reload Termux to apply.${RESET}"
+echo ""

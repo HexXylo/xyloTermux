@@ -1,0 +1,22 @@
+## xyloTermux Colorscheme: "XyloCyber"
+## Neon green hacker vibes
+
+color0=#000000
+color8=#1a1a1a
+color1=#ff0055
+color9=#ff4488
+color2=#00ff41
+color10=#33ff66
+color3=#ffdd00
+color11=#ffee55
+color4=#0088ff
+color12=#44aaff
+color5=#cc00ff
+color13=#dd44ff
+color6=#00eeff
+color14=#55ffff
+color7=#cccccc
+color15=#ffffff
+background=#020c02
+foreground=#00ff41
+cursor=#00ff41

@@ -1,0 +1,60 @@
+#!/bin/bash
+## xyloTermux greeting script
+## ~/.scripts/xylo-greeting
+
+# Colors
+CYAN='\033[38;2;125;207;255m'
+PURPLE='\033[38;2;187;154;247m'
+GREEN='\033[38;2;158;206;106m'
+YELLOW='\033[38;2;224;175;104m'
+DIM='\033[2m'
+BOLD='\033[1m'
+RESET='\033[0m'
+
+# Time-based greeting
+hour=$(date +%H)
+if [[ $hour -lt 12 ]]; then
+  greet="Good morning"
+  icon="󰖨"
+elif [[ $hour -lt 18 ]]; then
+  greet="Good afternoon"
+  icon="󰖙"
+else
+  greet="Good evening"
+  icon="󰖔"
+fi
+
+# Battery
+bat_info=$(termux-battery-status 2>/dev/null)
+if [[ -n "$bat_info" ]]; then
+  bat_pct=$(echo "$bat_info" | python3 -c "import sys,json; b=json.load(sys.stdin); print(b['percentage'])" 2>/dev/null)
+  bat_status=$(echo "$bat_info" | python3 -c "import sys,json; b=json.load(sys.stdin); print(b['status'])" 2>/dev/null)
+  bat_str="${GREEN}${bat_pct}%%${RESET}"
+  [[ "$bat_status" == "CHARGING" ]] && bat_str="${YELLOW}${bat_pct}%% ⚡${RESET}"
+else
+  bat_str="${DIM}n/a${RESET}"
+fi
+
+# Storage
+storage=$(df -h /data 2>/dev/null | awk 'NR==2{print $4}')
+
+# Network
+wifi=$(termux-wifi-connectioninfo 2>/dev/null | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('ssid','N/A'))" 2>/dev/null || echo "N/A")
+
+echo ""
+echo -e "  ${PURPLE}${BOLD}██╗  ██╗██╗   ██╗██╗      ██████╗ ${RESET}"
+echo -e "  ${PURPLE}╚██╗██╔╝╚██╗ ██╔╝██║     ██╔═══██╗${RESET}"
+echo -e "  ${CYAN} ╚███╔╝  ╚████╔╝ ██║     ██║   ██║${RESET}"
+echo -e "  ${CYAN} ██╔██╗   ╚██╔╝  ██║     ██║   ██║${RESET}"
+echo -e "  ${PURPLE}██╔╝ ██╗   ██║   ███████╗╚██████╔╝${RESET}"
+echo -e "  ${PURPLE}╚═╝  ╚═╝   ╚═╝   ╚══════╝ ╚═════╝ ${RESET}"
+echo ""
+echo -e "  ${DIM}your terminal. your rules.${RESET}"
+echo ""
+echo -e "  ${PURPLE}${icon} ${greet}!${RESET}"
+echo -e "  ${DIM}$(date '+%A, %d %B %Y  %H:%M')${RESET}"
+echo ""
+echo -e "  󰁹  Battery  ${bat_str}   󰋊  Free  ${GREEN}${storage}${RESET}   󰤨  ${GREEN}${wifi}${RESET}"
+echo ""
+echo -e "  ${DIM}Type ${RESET}${CYAN}help${RESET}${DIM} for xylo commands${RESET}"
+echo ""
