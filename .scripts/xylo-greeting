@@ -11,26 +11,13 @@ DIM='\033[2m'
 BOLD='\033[1m'
 RESET='\033[0m'
 
-# Time-based greeting
-hour=$(date +%H)
-if [[ $hour -lt 12 ]]; then
-  greet="Good morning"
-  icon="󰖨"
-elif [[ $hour -lt 18 ]]; then
-  greet="Good afternoon"
-  icon="󰖙"
-else
-  greet="Good evening"
-  icon="󰖔"
-fi
-
 # Battery
 bat_info=$(termux-battery-status 2>/dev/null)
 if [[ -n "$bat_info" ]]; then
   bat_pct=$(echo "$bat_info" | python3 -c "import sys,json; b=json.load(sys.stdin); print(b['percentage'])" 2>/dev/null)
   bat_status=$(echo "$bat_info" | python3 -c "import sys,json; b=json.load(sys.stdin); print(b['status'])" 2>/dev/null)
-  bat_str="${GREEN}${bat_pct}%%${RESET}"
-  [[ "$bat_status" == "CHARGING" ]] && bat_str="${YELLOW}${bat_pct}%% ⚡${RESET}"
+  bat_str="${GREEN}${bat_pct}%${RESET}"
+  [[ "$bat_status" == "CHARGING" ]] && bat_str="${YELLOW}${bat_pct}% ⚡${RESET}"
 else
   bat_str="${DIM}n/a${RESET}"
 fi
@@ -51,10 +38,9 @@ echo -e "  ${PURPLE}╚═╝  ╚═╝   ╚═╝   ╚══════╝ 
 echo ""
 echo -e "  ${DIM}your terminal. your rules.${RESET}"
 echo ""
-echo -e "  ${PURPLE}${icon} ${greet}!${RESET}"
 echo -e "  ${DIM}$(date '+%A, %d %B %Y  %H:%M')${RESET}"
 echo ""
 echo -e "  󰁹  Battery  ${bat_str}   󰋊  Free  ${GREEN}${storage}${RESET}   󰤨  ${GREEN}${wifi}${RESET}"
 echo ""
-echo -e "  ${DIM}Type ${RESET}${CYAN}help${RESET}${DIM} for xylo commands${RESET}"
+echo -e "  ${DIM}. ${RESET}${CYAN}help${RESET}${DIM} for all commands${RESET}"
 echo ""
